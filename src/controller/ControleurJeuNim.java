@@ -32,7 +32,8 @@ public class ControleurJeuNim {
     
     public void gameContinue() {
         while (!tas.partieTerminee()) {
-            choixCoupNim();
+            choixCoupNim(joueur1);
+            choixCoupNim(joueur2);
         }
     }
     
@@ -91,42 +92,30 @@ public class ControleurJeuNim {
         joueur2 = new Joueur(ihm.saisirNomJoueur());
     }
 
-    public void choixCoupNim() {
-        int[] coup = new int[2];
-        int numTas;
-        int nbreAllumette;
-
-        if (nbreCoup[1] < nbreCoup[0]) {
-            ihm.formeCoup(tas.toString(), joueur2.getNom());
-        } else {
-            ihm.formeCoup(tas.toString(), joueur1.getNom());
-        }
-        numTas = ihm.saisirNumTas();
+    public void choixCoupNim(Joueur j) {
+        ihm.formeCoup(j.getNom());
+        int numTas = ihm.saisirNumTas();
         while (nbreTas < numTas) {
             ihm.print("Veuillez saisir un numero de tas inferieur ou egal a " + nbreTas);
             numTas = ihm.saisirNumTas();
         }
-        nbreAllumette = ihm.saisirNbreAllumette(tas.nbAllumettes(numTas));
-        coup[0] = numTas;
-        coup[1] = nbreAllumette;
-        enregistrerCoup(coup);
+        int nbreAllumette = ihm.saisirNbreAllumette(tas.nbAllumettes(numTas));
+        CoupNim coup = new CoupNim(numTas,nbreAllumette);
+        enregistrerCoup(j,coup);
     }
 
-    public void enregistrerCoup(int[] coup) {
+    public void enregistrerCoup(Joueur j,CoupNim coup)
+    {
         try {
-            if (nbreCoup[1] < nbreCoup[0]) {
-                tas.gererCoup(new CoupNim(coup[0], coup[1]));
-                nbreCoup[1] = nbreCoup[1] + 1;
-            } else {
-                tas.gererCoup(new CoupNim(coup[0], coup[1]));
-                nbreCoup[0] = nbreCoup[0] + 1;
-            }
-        } catch (CoupInvalideException e) {
-            ihm.print(e.getMessage());
-            choixCoupNim();
+            tas.gererCoup(coup);
         }
-
+        catch (CoupInvalideException e) {
+            e.printStackTrace();
+            choixCoupNim(j);
+        }
     }
+
 }
+
 
 
