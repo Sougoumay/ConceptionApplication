@@ -93,7 +93,7 @@ public class ControleurJeuNim {
     }
 
     public void choixCoupNim(Joueur j) {
-        ihm.formeCoup(j.getNom());
+        ihm.formeCoup(tas.toString(),j.getNom());
         int numTas = ihm.saisirNumTas();
         while (nbreTas < numTas) {
             ihm.print("Veuillez saisir un numero de tas inferieur ou egal a " + nbreTas);
