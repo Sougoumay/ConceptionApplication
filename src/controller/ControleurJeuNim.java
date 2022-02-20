@@ -11,8 +11,7 @@ public class ControleurJeuNim {
     Ihm ihm;
     Tas tas;
 
-    Joueur joueur1;
-    Joueur joueur2;
+    Joueur[] lesJoueurs = new Joueur[2];
     int nbreTas;
     int nbrePartie=0;
     int[] nbreCoup = {0, 0};
@@ -38,13 +37,13 @@ public class ControleurJeuNim {
     
     public void vainqueur() {
         if (nbreCoup[1] < nbreCoup[0]) {
-            joueur1.gagnePartie();
+            lesJoueurs[0].gagnePartie();
             nbrePartie++;
-            ihm.print(joueur1.getNom() + " vous etes le vainqueur de la partie " + nbrePartie);
+            ihm.print(lesJoueurs[0].getNom() + " vous etes le vainqueur de la partie " + nbrePartie);
         } else {
-            joueur2.gagnePartie();
+            lesJoueurs[1].gagnePartie();
             nbrePartie++;
-            ihm.print(joueur2.getNom() + " vous etes le vainqueur de la partie " + nbrePartie);
+            ihm.print(lesJoueurs[1].getNom() + " vous etes le vainqueur de la partie " + nbrePartie);
         }
     }
 
@@ -68,12 +67,12 @@ public class ControleurJeuNim {
             vainqueur();
             rejouerPartie();
         } else {
-            if(joueur2.getNbPartiesGagnees() < joueur1.getNbPartiesGagnees()) {
-                ihm.print(joueur1.getNom() + " vous etes le vainqueur avec " + joueur1.getNbPartiesGagnees() +" partie(s) gagnée(s) contre " +
-                        joueur2.getNbPartiesGagnees() + " pour" + joueur1.getNom());
-            } else if(joueur1.getNbPartiesGagnees()< joueur2.getNbPartiesGagnees()) {
-                ihm.print(joueur2.getNom() + " vous etes le vainqueur avec " + joueur2.getNbPartiesGagnees() +" partie(s) gagnée(s) contre " +
-                        joueur1.getNbPartiesGagnees() + " pour" + joueur1.getNom());
+            if(lesJoueurs[1].getNbPartiesGagnees() < lesJoueurs[0].getNbPartiesGagnees()) {
+                ihm.print(lesJoueurs[0].getNom() + " vous etes le vainqueur avec " + lesJoueurs[0].getNbPartiesGagnees() +" partie(s) gagnée(s) contre " +
+                        lesJoueurs[1].getNbPartiesGagnees() + " pour " + lesJoueurs[0].getNom());
+            } else if(lesJoueurs[0].getNbPartiesGagnees()< lesJoueurs[1].getNbPartiesGagnees()) {
+                ihm.print(lesJoueurs[1].getNom() + " vous etes le vainqueur avec " + lesJoueurs[1].getNbPartiesGagnees() +" partie(s) gagnée(s) contre " +
+                        lesJoueurs[0].getNbPartiesGagnees() + " pour " + lesJoueurs[0].getNom());
             } else {
                 ihm.print("ex aequo");
             }
@@ -87,19 +86,20 @@ public class ControleurJeuNim {
     }
 
     public void nomJoueurs() {
-        joueur1 = new Joueur(ihm.saisirNomJoueur());
-        joueur2 = new Joueur(ihm.saisirNomJoueur());
+        Joueur joueur1 = new Joueur(ihm.saisirNomJoueur());
+        lesJoueurs[0]=joueur1;
+        Joueur joueur2 = new Joueur(ihm.saisirNomJoueur());
+        lesJoueurs[1]=joueur2;
     }
 
     public void choixCoupNim() {
-        int[] coup = new int[2];
         int numTas;
         int nbreAllumette;
 
         if (nbreCoup[1] < nbreCoup[0]) {
-            ihm.formeCoup(tas.toString(), joueur2.getNom());
+            ihm.formeCoup(tas.toString(), lesJoueurs[1].getNom());
         } else {
-            ihm.formeCoup(tas.toString(), joueur1.getNom());
+            ihm.formeCoup(tas.toString(), lesJoueurs[0].getNom());
         }
         numTas = ihm.saisirNumTas();
         while (nbreTas < numTas) {
@@ -107,22 +107,21 @@ public class ControleurJeuNim {
             numTas = ihm.saisirNumTas();
         }
         nbreAllumette = ihm.saisirNbreAllumette(tas.nbAllumettes(numTas));
-        coup[0] = numTas;
-        coup[1] = nbreAllumette;
+        CoupNim coup = new CoupNim(numTas,nbreAllumette);
         enregistrerCoup(coup);
     }
 
-    public void enregistrerCoup(int[] coup) {
+    public void enregistrerCoup(CoupNim coup) {
         try {
             if (nbreCoup[1] < nbreCoup[0]) {
-                tas.gererCoup(new CoupNim(coup[0], coup[1]));
+                tas.gererCoup(coup);
                 nbreCoup[1] = nbreCoup[1] + 1;
             } else {
-                tas.gererCoup(new CoupNim(coup[0], coup[1]));
+                tas.gererCoup(coup);
                 nbreCoup[0] = nbreCoup[0] + 1;
             }
         } catch (CoupInvalideException e) {
-            ihm.print(e.getMessage());
+            ihm.print("Erreur! " + e.getMessage());
             choixCoupNim();
         }
 

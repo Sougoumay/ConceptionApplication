@@ -19,7 +19,7 @@ public class Ihm {
     }
 
     public int saisirNbreAllumette(int n) {
-        print("Veuillez choisir le nbre d'allumette a retirer. Il doit etre inferieur a " + n);
+        print("Veuillez choisir le nbre d'allumette a retirer. Il doit etre inferieur ou egal a " + n);
         return saisirEntier();
     }
 
@@ -60,8 +60,7 @@ public class Ihm {
 
 
     public void formeCoup(String n, String s) {
-        print("Etat des tas \n" + n + "\n" + s + " : à vous de jouer un coup dans deux case differentes dont la premiere" +
-                " represente le numero du tas et la seconde le nombre d'allumette a retirer");
+        print("Etat des tas \n" + n + "\n" + s + " : à vous de jouer un coup, Veuillez choisir un numéro du tas" );
     }
 
     public void print(String msg) {
