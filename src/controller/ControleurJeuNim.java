@@ -84,6 +84,9 @@ public class ControleurJeuNim {
 
     public void choixNbreTas() {
         nbreTas = ihm.saisirNbreTas();
+        if(nbreTas<=0)
+            ihm.print("Saisir un entier supérieur à 0 ! " );
+            nbreTas = ihm.saisirNbreTas();
         tas = new Tas(nbreTas);
     }
 
@@ -110,7 +113,7 @@ public class ControleurJeuNim {
             tas.gererCoup(coup);
         }
         catch (CoupInvalideException e) {
-            e.printStackTrace();
+            ihm.print("Erreur! " + e.getMessage());
             choixCoupNim(j);
         }
     }
