@@ -1,0 +1,12 @@
+format 224
+
+classcanvas 128002 class_ref 128002 // joueur
+  simpleclassdiagramsettings end
+  xyz 72 189 2000
+end
+usecasecanvas 128130 usecase_ref 128002 // Jouer une partie
+  xyzwh 326 220 3005 181 39 label_xy 349 229
+end
+line 128514 ----
+  from ref 128002 z 3006 to ref 128130
+end
