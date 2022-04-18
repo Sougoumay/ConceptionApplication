@@ -1,0 +1,12 @@
+window_sizes 1500 752 375 1120 602 104
+
+diagrams
+  active  usecasediagram_ref 128002 // Conception
+    896 481 100 A4 40 0
+end
+show_stereotypes
+selected usecase_ref 128002 // Jouer une partie
+open
+  usecaseview_ref 128002 // conceptionApplication
+end
+end
