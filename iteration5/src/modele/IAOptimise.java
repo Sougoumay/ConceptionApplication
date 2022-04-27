@@ -12,7 +12,7 @@ public class IAOptimise extends IAPui4{
     }
 
     public Plateau strategieSansContrainteIA(Plateau plateau) throws CoupInvalideException {
-        formerListeCoup(((Grille) plateau));
+        formerListeCoupOptimise(((Grille) plateau));
         for(int i=7; i>=1; i--){
             List<Coup> listeCoup = coupPossible.get(i);
             if(listeCoup.size()>0){
@@ -31,7 +31,7 @@ public class IAOptimise extends IAPui4{
      * @param grille c'est la grille dans laquelle on joue
      * @throws CoupInvalideException la fonction gerercoup lève une exception donc on utilise la signature de celle-ci
      */
-    public void formerListeCoup(Grille grille) throws CoupInvalideException {
+    public void formerListeCoupOptimise(Grille grille) throws CoupInvalideException {
         initialiserListeCoup();
         for(int i =0 ;i<=6;i++){
             Coup coup = new CoupPuissance(i,"rouge");
